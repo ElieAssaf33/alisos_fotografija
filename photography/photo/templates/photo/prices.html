@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="pricing-container">
+    <h1 class="page-title">Fotografijos Paketai</h1>
+    <p class="subtitle">Pasirinkite tinkamą paketą savo ypatingiems momentams</p>
+
+    <div class="pricing-grid">
+        <!-- Family Package -->
+        <div class="pricing-card">
+            <h2>Šeimos Fotosesija</h2>
+            <div class="price">€350</div>
+            <ul class="features">
+                <li>8 valandos fotografavimo</li>
+                <li>2 fotografai</li>
+                <li>500+ redaguotų nuotraukų</li>
+                <li>Internetinė galerija</li>
+                <li>Šeimos albumo dizainas</li>
+                <li>Susitikimo sesija įskaičiuota</li>
+            </ul>
+            <a href="{% url 'contacts' %}" class="book-btn">Užsakyti</a>
+        </div>
+
+        <!-- Portrait Package -->
+        <div class="pricing-card">
+            <h2>Asmeninė Fotosesija Studijoje</h2>
+            <div class="price">€175</div>
+            <ul class="features">
+                <li>2 valandų sesija</li>
+                <li>Kelios lokacijos</li>
+                <li>50+ redaguotų nuotraukų</li>
+                <li>Internetinė galerija</li>
+                <li>Spausdinimo teisės</li>
+                <li>Stiliaus konsultacija</li>
+            </ul>
+            <a href="{% url 'contacts' %}" class="book-btn">Užsakyti</a>
+        </div>
+
+        <!-- Nature Package -->
+        <div class="pricing-card popular">
+            <h2>Asmeninė Fotosesija Gamtoje</h2>
+            <div class="popular-badge">Populiariausias</div>
+            <div class="price">€120</div>
+            <ul class="features">
+                <li>Lokacijų paieška</li>
+                <li>Kraštovaizdžių fotografija</li>
+                <li>Galimi oro kadrai</li>
+                <li>Oro sąlygų planavimas</li>
+                <li>Kelionės dokumentavimas</li>
+                <li>Istorijų kūrimas</li>
+            </ul>
+            <a href="{% url 'contacts' %}" class="book-btn">Užsakyti</a>
+        </div>
+
+        <!-- Events Package -->
+        <div class="pricing-card">
+            <h2>Renginių Fotografavimas</h2>
+            <div class="price">€350</div>
+            <ul class="features">
+                <li>8 valandos fotografavimo</li>
+                <li>2 fotografai</li>
+                <li>500+ redaguotų nuotraukų</li>
+                <li>Internetinė galerija</li>
+                <li>Renginių albumo dizainas</li>
+                <li>Susitikimo sesija įskaičiuota</li>
+            </ul>
+            <a href="{% url 'contacts' %}" class="book-btn">Užsakyti</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .pricing-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .page-title {
+        text-align: center;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 40px;
+    }
+    
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        padding: 20px;
+    }
+    
+    .pricing-card {
+        position: relative;
+        padding: 30px;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .pricing-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .pricing-card.popular {
+        border: 2px solid #ff6b6b;
+    }
+    
+    .popular-badge {
+        position: absolute;
+        top: -12px;
+        right: 20px;
+        background: #ff6b6b;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-size: 0.8em;
+    }
+    
+    .pricing-card h2 {
+        margin: 0 0 20px 0;
+        color: #333;
+        font-size: 1.5em;
+    }
+    
+    .price {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #333;
+        margin: 20px 0;
+    }
+    
+    .features {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+    }
+    
+    .features li {
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+        color: #666;
+    }
+    
+    .features li:last-child {
+        border-bottom: none;
+    }
+    
+    .book-btn {
+        display: block;
+        text-align: center;
+        padding: 15px;
+        background: #ff6b6b;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        transition: background 0.3s ease;
+        font-weight: bold;
+    }
+    
+    .book-btn:hover {
+        background: #ff5252;
+    }
+</style>
+{% endblock content %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="lt">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alisos Fotografija</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+                <span class="logo">Alisos Fotografija</span>
+                <button class="menu-toggle" aria-label="Perjungti meniu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            <nav class="nav-container">
+                <ul class="nav">
+                    <li><a href="{% url 'index' %}">Pradžia</a></li>
+                    <li class="portfolio-dropdown">
+                        <a href="{% url 'portfolio' %}">Portfolio</a>
+                        <div class="portfolio-dropdown-content">
+                            <a href="{% url 'portrait' %}">Studija</a>
+                            <a href="{% url 'nature' %}">Gamta</a>
+                            <a href="{% url 'family' %}">Šeima</a>
+                            <a href="{% url 'events' %}">Renginiai</a>
+                        </div>       
+                    </li>
+                    <li><a href="{% url 'prices' %}">Kainos</a></li>
+                    <li><a href="{% url 'about' %}">Apie</a></li>
+                    <li><a href="{% url 'reviews' %}">Atsiliepimai</a></li>
+                    <li><a href="{% url 'contacts' %}">Kontaktai</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        {% block content %}{% endblock content %}
+    </main>
+    <script src="{% static 'js/navigation.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

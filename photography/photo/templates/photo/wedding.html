@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="gallery-container">
+    <h1 class="section-title">{{ section_title }}</h1>
+    <p class="section-description">{{ section_description }}</p>
+
+    <div class="photo-grid">
+        {% for gallery in wedding_galleries %}
+            {% for photo in gallery.photos.all %}
+            <div class="photo-item">
+                <img src="{{ photo.image.url }}" alt="{{ photo.title }}" class="gallery-image">
+                {% if photo.title %}
+                <div class="photo-title">{{ photo.title }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% empty %}
+        <p class="no-photos">No wedding photos available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock content %}

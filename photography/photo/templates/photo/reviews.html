@@ -1,0 +1,343 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="reviews-container">
+    <h1 class="page-title">Klientų Atsiliepimai</h1>
+    <p class="subtitle">Ką mano klientai sako apie savo patirtį</p>
+
+    <div class="reviews-grid">
+        {% for review in reviews %}
+        <div class="review-card">
+            <div class="review-header">
+                <div class="client-info">
+                    <h3>{{ review.client_name }}</h3>
+                    <div class="rating">
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= review.rating %}
+                                <span class="star filled">★</span>
+                            {% else %}
+                                <span class="star">☆</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="review-date">{{ review.created_at|date:"F j, Y" }}</div>
+            </div>
+            
+            <div class="review-content">
+                <p class="review-text">{{ review.review_text }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-reviews">
+            <p>Kol kas nėra atsiliepimų. Būkite pirmi, kurie pasidalins savo patirtimi!</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="review-form-container">
+        <h2 class="section-title">Pasidalinkite Savo Patirtimi</h2>
+        <p class="section-subtitle">Man labai svarbu išgirsti jūsų nuomonę apie mano fotografijos paslaugas</p>
+        
+        <form method="post" class="review-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_client_name" class="form-label">Jūsų Vardas</label>
+                <input type="text" name="client_name" id="id_client_name" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Įvertinimas</label>
+                <div class="rating-input">
+                    <input type="hidden" name="rating" id="id_rating" value="0">
+                    <div class="rating-stars">
+                        <span class="star" data-rating="1">☆</span>
+                        <span class="star" data-rating="2">☆</span>
+                        <span class="star" data-rating="3">☆</span>
+                        <span class="star" data-rating="4">☆</span>
+                        <span class="star" data-rating="5">☆</span>
+                    </div>
+                    <span class="rating-text">Spauskite žvaigždutes įvertinimui</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_review_text" class="form-label">Jūsų Atsiliepimas</label>
+                <textarea name="review_text" id="id_review_text" class="form-input" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-button">
+                <span>Pateikti Atsiliepimą</span>
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .reviews-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    .page-title {
+        text-align: center;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 40px;
+        font-size: 1.2em;
+    }
+
+    .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        padding: 20px 0;
+    }
+
+    .review-card {
+        background: white;
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .review-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .client-info h3 {
+        margin: 0;
+        color: #333;
+        font-size: 1.2em;
+    }
+
+    .rating {
+        margin-top: 5px;
+    }
+
+    .star {
+        color: #ffd700;
+        font-size: 1.2em;
+    }
+
+    .star.filled {
+        color: #ffd700;
+    }
+
+    .review-date {
+        color: #666;
+        font-size: 0.9em;
+    }
+
+    .review-content {
+        color: #444;
+    }
+
+    .review-text {
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .no-reviews {
+        text-align: center;
+        padding: 40px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        color: #666;
+        grid-column: 1 / -1;
+    }
+
+    .review-form-container {
+        max-width: 800px;
+        margin: 40px auto 0;
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .section-subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 1.1em;
+    }
+
+    .review-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1em;
+    }
+
+    .form-input {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+        width: 100%;
+    }
+
+    .form-input:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+    }
+
+    textarea.form-input {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .rating-input {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .rating-stars {
+        display: flex;
+        gap: 5px;
+    }
+
+    .rating-stars .star {
+        font-size: 2em;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .rating-stars .star:hover,
+    .rating-stars .star.active {
+        color: #ffd700;
+    }
+
+    .rating-text {
+        color: #666;
+        font-size: 0.9em;
+    }
+
+    .submit-button {
+        background: #007bff;
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-button:hover {
+        background: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+        .reviews-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .review-form-container {
+            padding: 20px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.rating-stars .star');
+        const ratingInput = document.getElementById('id_rating');
+        const ratingText = document.querySelector('.rating-text');
+        
+        const ratingDescriptions = {
+            0: 'Spauskite žvaigždutes įvertinimui',
+            1: 'Labai blogai',
+            2: 'Blogai',
+            3: 'Vidutiniškai',
+            4: 'Gerai',
+            5: 'Puiku'
+        };
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.dataset.rating;
+                ratingInput.value = rating;
+                
+                stars.forEach(s => {
+                    if (s.dataset.rating <= rating) {
+                        s.classList.add('active');
+                        s.textContent = '★';
+                    } else {
+                        s.classList.remove('active');
+                        s.textContent = '☆';
+                    }
+                });
+
+                ratingText.textContent = ratingDescriptions[rating];
+            });
+
+            star.addEventListener('mouseover', function() {
+                const rating = this.dataset.rating;
+                stars.forEach(s => {
+                    if (s.dataset.rating <= rating) {
+                        s.classList.add('active');
+                        s.textContent = '★';
+                    } else {
+                        s.classList.remove('active');
+                        s.textContent = '☆';
+                    }
+                });
+            });
+
+            star.addEventListener('mouseout', function() {
+                const currentRating = ratingInput.value;
+                stars.forEach(s => {
+                    if (s.dataset.rating <= currentRating) {
+                        s.classList.add('active');
+                        s.textContent = '★';
+                    } else {
+                        s.classList.remove('active');
+                        s.textContent = '☆';
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock content %} 

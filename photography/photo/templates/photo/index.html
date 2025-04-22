@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="hero">
+    <div class="slideshow-container">
+        <div id="image-container">
+            <img id="dynamic-image" src="{% if portrait_photo %}{{ portrait_photo.image.url }}{% endif %}" alt="Portretinė fotografija">
+        </div>
+        <div class="slideshow-controls">
+            <button id="prev-btn" class="nav-btn">&lt;</button>
+            <div class="dots-container" id="dots-container"></div>
+            <button id="next-btn" class="nav-btn">&gt;</button>
+        </div>
+        <div class="slide-caption" id="slide-caption">Portretinė fotografija - Asmeniniai akimirkos fokusuose</div>
+        </div>
+
+        <div class="overlay"></div>
+    </div>
+</div>
+
+<section class="category-showcase">
+    <h2 class="showcase-title">Atraskite Mano Fotografiją</h2>
+    <div class="showcase-grid">
+        {% if portrait_photo %}
+        <a href="{% url 'portrait' %}" class="showcase-item">
+            <img src="{{ portrait_photo.image.url }}" alt="{{ portrait_photo.title }}" class="showcase-image">
+            <div class="showcase-overlay">
+                <h3>Portretinė Fotografija</h3>
+                <p>Asmenybių ir akimirkų fiksavimas puikiu detališkumu</p>
+            </div>
+        </a>
+        {% endif %}
+
+        {% if family_photo %}
+        <a href="{% url 'family' %}" class="showcase-item">
+            <img src="{{ family_photo.image.url }}" alt="{{ family_photo.title }}" class="showcase-image">
+            <div class="showcase-overlay">
+                <h3>Šeimos Fotografija</h3>
+                <p>Brangiausių šeimos akimirkų fiksavimas ir amžinų prisiminimų kūrimas</p>
+            </div>
+        </a>
+        {% endif %}
+
+        {% if nature_photo %}
+        <a href="{% url 'nature' %}" class="showcase-item">
+            <img src="{{ nature_photo.image.url }}" alt="{{ nature_photo.title }}" class="showcase-image">
+            <div class="showcase-overlay">
+                <h3>Gamtos Fotografija</h3>
+                <p>Kraštovaizdžių ir laukinės gamtos grožio tyrinėjimas</p>
+            </div>
+        </a>
+        {% endif %}
+
+        {% if events_photo %}
+        <a href="{% url 'events' %}" class="showcase-item">
+            <img src="{{ events_photo.image.url }}" alt="{{ events_photo.title }}" class="showcase-image">
+            <div class="showcase-overlay">
+                <h3>Renginių Fotografija</h3>
+                <p>Ypatingų progių ir švenčių dokumentavimas stiliu</p>
+            </div>
+        </a>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+    const images = [
+        "{{ portrait_photo.image.url|default:'' }}",
+        "{{ family_photo.image.url|default:'' }}",
+        "{{ nature_photo.image.url|default:'' }}",
+        "{{ events_photo.image.url|default:'' }}"
+    ].filter(url => url !== '');
+
+    const captions = [
+        "Portretinė fotografija - Asmeniniai akimirkos fokusuose",
+        "Šeimos fotografija - Brangiausių akimirkų fiksavimas",
+        "Gamtos fotografija - Laukinės gamtos grožis",
+        "Renginių fotografija - Ypatingų progių šventimas"
+    ].slice(0, images.length);
+
+    let currentIndex = 0;
+    const dotsContainer = document.getElementById('dots-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    // Create dots
+    images.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    function updateCaption() {
+        const caption = document.getElementById('slide-caption');
+        caption.style.opacity = 0;
+        setTimeout(() => {
+            caption.textContent = captions[currentIndex];
+            caption.style.opacity = 1;
+        }, 250);
+    }
+
+    function updateDots() {
+        document.querySelectorAll('.dot').forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    function goToSlide(index) {
+        const img = document.getElementById("dynamic-image");
+        img.style.opacity = 0;
+        
+        setTimeout(() => {
+            currentIndex = index;
+            img.src = images[currentIndex];
+            img.style.opacity = 1;
+            updateDots();
+            updateCaption();
+        }, 500);
+    }
+
+    function nextSlide() {
+        goToSlide((currentIndex + 1) % images.length);
+    }
+
+    function prevSlide() {
+        goToSlide((currentIndex - 1 + images.length) % images.length);
+    }
+
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    // Auto advance slides
+    const slideInterval = setInterval(nextSlide, 5000);
+
+    // Pause slideshow when hovering over controls
+    document.querySelector('.slideshow-controls').addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
+    });
+</script>
+{% endblock content %}
