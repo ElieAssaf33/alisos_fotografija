@@ -1,6 +1,4 @@
 from django.db import models
-from imagekit.models import ProcessedImageField
-from imagekit.processors import ResizeToFit
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 class PhotoGallery(models.Model):
