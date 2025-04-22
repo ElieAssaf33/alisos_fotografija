@@ -25,9 +25,9 @@ SECRET_KEY = 'django-insecure-fjnlg%!ffq4$t1sc6a-)$bdk87vr%uvgszip=5*y=)py1)fp=+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost','https://alisos-fotografija.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','alisosfotografija.onrender.com']
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:51513', 'http://127.0.0.1:8000','https://alisos-fotografija.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:51513', 'http://127.0.0.1:8000','https://alisosfotografija.onrender.com']
 
 
 # Application definition
