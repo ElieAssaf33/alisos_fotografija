@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','alisosfotografija.onrender.com', 'alisosfotografija-production.up.railway.app', 'alisosfotografija.onrender.com', 'https://alisosfotografija-production.up.railway.app']
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:51513', 'http://127.0.0.1:8000', 'https://alisosfotografija-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:51513', 'http://127.0.0.1:8000', 'alisosfotografija.onrender.com', 'alisosfotografija-production.up.railway.app', 'alisosfotografija.onrender.com', 'https://alisosfotografija-production.up.railway.app']
 
 
 # Application definition
