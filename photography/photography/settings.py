@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-fjnlg%!ffq4$t1sc6a-)$bdk87vr%uvgszip=5*y=)py1)fp=+'
+SECRET_KEY = 'tik)%g9z4b#53#%e)$va!nhps=bho9v&pw$1)ab)4azl@%+6+^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','alisosfotografija.onrender.com', 'alisosfotografija-production.up.railway.app', 'alisosfotografija.onrender.com', 'https://alisosfotografija-production.up.railway.app']
 
@@ -141,3 +141,20 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'eliesamazingphotography@gmail.com'
 EMAIL_HOST_PASSWORD = 'afhg ccbx thpw qvoh'
+
+# Security settings
+if not DEBUG:
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+else:
+    # Development settings
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
