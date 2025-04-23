@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'tik)%g9z4b#53#%e)$va!nhps=bho9v&pw$1)ab)4azl@%+6+^'
+SECRET_KEY = 'django-insecure-fjnlg%!ffq4$t1sc6a-)$bdk87vr%uvgszip=5*y=)py1)fp=+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','alisosfotografija.onrender.com', 'alisosfotografija-production.up.railway.app', 'alisosfotografija.onrender.com', 'https://alisosfotografija-production.up.railway.app']
 
