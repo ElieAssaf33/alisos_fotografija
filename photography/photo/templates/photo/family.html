@@ -13,7 +13,7 @@
             {% for photo in gallery.photos.all %}
             <div class="photo-item">
                 <div class="image-container">
-                    <img src="{{ photo.image.url }}" alt="{{ photo.title }}" class="gallery-image">
+                    <img src="{{photo.image.url}}" alt="{{ photo.title }}" class="gallery-image">
                 </div>
                 {% if photo.title %}
                 <div class="photo-title">{{ photo.title }}</div>
