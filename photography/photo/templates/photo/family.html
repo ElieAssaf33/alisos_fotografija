@@ -19,7 +19,24 @@
             </div>
             {% endfor %}
         {% empty %}
-        <p class="no-photos">Šiuo metu šeimos nuotraukų nėra.</p>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_0864.jpg' %}" alt="Šeimos Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Šeimos Akimirka</div>
+            </div>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_0865.jpg' %}" alt="Šeimos Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Šeimos Prisiminimas</div>
+            </div>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_0849.jpg' %}" alt="Šeimos Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Šeimos Grožis</div>
+            </div>
         {% endfor %}
     </div>
 </div>

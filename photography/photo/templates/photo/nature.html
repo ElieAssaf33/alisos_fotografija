@@ -19,7 +19,24 @@
             </div>
             {% endfor %}
         {% empty %}
-        <p class="no-photos">Šiuo metu gamtos nuotraukų nėra.</p>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_9461.jpg' %}" alt="Gamtos Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Gamtos Grožis</div>
+            </div>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_9354-Enhanced-NR.jpg' %}" alt="Gamtos Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Kraštovaizdis</div>
+            </div>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_9306.jpg' %}" alt="Gamtos Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Gamtos Detalė</div>
+            </div>
         {% endfor %}
     </div>
 </div>

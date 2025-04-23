@@ -19,7 +19,24 @@
             </div>
             {% endfor %}
         {% empty %}
-        <p class="no-photos">Šiuo metu renginių nuotraukų nėra.</p>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_0043.jpg' %}" alt="Renginių Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Renginio Akimirka</div>
+            </div>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_0040.jpg' %}" alt="Renginių Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Renginio Atmosfera</div>
+            </div>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_0032.jpg' %}" alt="Renginių Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Renginio Detalė</div>
+            </div>
         {% endfor %}
     </div>
 </div>

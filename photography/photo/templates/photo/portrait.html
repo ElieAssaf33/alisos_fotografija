@@ -19,7 +19,24 @@
             </div>
             {% endfor %}
         {% empty %}
-        <p class="no-photos">Šiuo metu studijos nuotraukų nėra.</p>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_1784.jpg' %}" alt="Portretų Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Portretas</div>
+            </div>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_1772-Enhanced-NR.jpg' %}" alt="Portretų Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Studijos Nuotrauka</div>
+            </div>
+            <div class="photo-item">
+                <div class="image-container">
+                    <img src="{% static 'img/IMG_1720.jpg' %}" alt="Portretų Fotografija" class="gallery-image">
+                </div>
+                <div class="photo-title">Asmenybė</div>
+            </div>
         {% endfor %}
     </div>
 </div>
