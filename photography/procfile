@@ -1,2 +1,1 @@
-web: gunicorn photo.wsgi --log-file
-web: python manage.py migrate && gunicorn photo.wsg
+web: python manage.py collectstatic --no-input && python manage.py migrate && gunicorn photography.wsgi:application
