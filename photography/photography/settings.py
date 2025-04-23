@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,11 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-fjnlg%!ffq4$t1sc6a-)$bdk87vr%uvgszip=5*y=)py1)fp=+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost','alisosfotografija.onrender.com', 'alisosfotografija.lt']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','alisosfotografija.onrender.com', 'alisosfotografija-production.up.railway.app', 'alisosfotografija.onrender.com', 'https://alisosfotografija-production.up.railway.app']
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:51513', 'http://127.0.0.1:8000','https://alisosfotografija.onrender.com', 'https://alisosfotografija.lt']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:51513', 'http://127.0.0.1:8000','https://alisosfotografija.onrender.com', 'alisosfotografija.onrender.com', 'alisosfotografija-production.up.railway.app', 'alisosfotografija.onrender.com', 'https://alisosfotografija-production.up.railway.app']
 
 
 # Application definition
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.runserver_nostatic'
 ]
 
 MIDDLEWARE = [
@@ -120,10 +122,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = ['static/']
 STATIC_ROOT = BASE_DIR.joinpath(STATIC_URL)
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR.joinpath(MEDIA_URL)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Default primary key field type
