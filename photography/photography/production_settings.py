@@ -28,4 +28,8 @@ CSRF_TRUSTED_ORIGINS = ['https://alisos-fotografija.onrender.com']  # Replace wi
 
 # Configure whitenoise for static files
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Add media file serving in production
+MIDDLEWARE.append('django.middleware.security.SecurityMiddleware')
+MIDDLEWARE.append('django.contrib.staticfiles.middleware.StaticFilesMiddleware') 
