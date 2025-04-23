@@ -1,7 +1,8 @@
 from django.db import models
-from imagekit.models import ProcessedImageField
-from imagekit.processors import ResizeToFit
 from django.core.validators import MinValueValidator, MaxValueValidator
+
+
+
 
 class PhotoGallery(models.Model):
     CATEGORY_CHOICES = [
@@ -23,20 +24,6 @@ class PhotoGallery(models.Model):
 
 class Photo(models.Model):
     gallery = models.ForeignKey(PhotoGallery, on_delete=models.CASCADE, related_name='photos')
-    image = ProcessedImageField(
-        upload_to='img/',
-        processors=[ResizeToFit(1920, 1080, upscale=False)],  # Resize to max 1920x1080
-        format='JPEG',
-        options={'quality': 90}  # Set JPEG quality to 90%
-    )
-    thumbnail = ProcessedImageField(
-        upload_to='img/thumbnails/',
-        processors=[ResizeToFit(400, 400, upscale=False)],
-        format='JPEG',
-        options={'quality': 85},  # Set JPEG quality to 85% for thumbnails
-        null=True,  # Allow null values in database
-        blank=True  # Allow empty values in forms
-    )
     title = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
     order = models.PositiveIntegerField(default=0)
