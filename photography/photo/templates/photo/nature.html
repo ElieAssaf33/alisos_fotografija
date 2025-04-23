@@ -6,27 +6,68 @@
 {% block content %}
 <div class="gallery-container">
     <h1 class="section-title">Gamtos Fotografija</h1>
-    <p class="section-description">Gamtos grožio fiksavimas</p>
+    <p class="section-description">Gamtos grožis</p>
     
     <div class="photo-grid">
-        {% for gallery in nature_galleries %}
-            {% for photo in gallery.photos.all %}
-            <div class="photo-item">
-                <div class="image-container">
-                    <img src="{{ photo.image.url }}" alt="{{ photo.title }}" class="gallery-image">
-                </div>
-                {% if photo.title %}
-                <div class="photo-title">{{ photo.title }}</div>
-                {% endif %}
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_1582.jpg' %}" alt="Gamtos fotografija" class="gallery-image">
             </div>
-            {% endfor %}
-        {% endfor %}
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_1656-Enhanced-NR.jpg' %}" alt="Gamtos fotografija" class="gallery-image">
+            </div>
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_1671.jpg' %}" alt="Gamtos fotografija" class="gallery-image">
+            </div>
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_1720.jpg' %}" alt="Gamtos fotografija" class="gallery-image">
+            </div>
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_1772-Enhanced-NR.jpg' %}" alt="Gamtos fotografija" class="gallery-image">
+            </div>
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_1784.jpg' %}" alt="Gamtos fotografija" class="gallery-image">
+            </div>
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_1834.jpg' %}" alt="Gamtos fotografija" class="gallery-image">
+            </div>
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_1861.jpg' %}" alt="Gamtos fotografija" class="gallery-image">
+            </div>
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_1882.jpg' %}" alt="Gamtos fotografija" class="gallery-image">
+            </div>
+        </div>
     </div>
 </div>
 
 <style>
     .gallery-container {
-        max-width: 1200px;
+        max-width: 1600px;
         margin: 0 auto;
         padding: 40px 20px;
     }
@@ -47,7 +88,7 @@
 
     .photo-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
 
@@ -55,9 +96,8 @@
         position: relative;
         border-radius: 8px;
         overflow: hidden;
-        transition: transform 0.3s ease;
         background: transparent;
-        aspect-ratio: 2/3;
+        aspect-ratio: 3/2;
     }
 
     .image-container {
@@ -65,10 +105,6 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-    }
-
-    .photo-item:hover {
-        transform: translateY(-5px);
     }
 
     .gallery-image {
@@ -79,40 +115,9 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center top;
+        object-position: center;
         display: block;
-        transition: transform 0.3s ease;
         background: transparent;
-    }
-
-    .photo-item:hover .gallery-image {
-        transform: translate(-50%, -50%) scale(1.05);
-    }
-
-    .photo-title {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 10px;
-        text-align: center;
-        transform: translateY(100%);
-        transition: transform 0.3s ease;
-        z-index: 2;
-    }
-
-    .photo-item:hover .photo-title {
-        transform: translateY(0);
-    }
-
-    .no-photos {
-        text-align: center;
-        color: #666;
-        font-size: 1.2em;
-        grid-column: 1 / -1;
-        padding: 40px;
     }
 
     @media (max-width: 768px) {
@@ -127,11 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const images = document.querySelectorAll('.gallery-image');
     
     images.forEach(img => {
-        // If the image is already loaded
         if (img.complete) {
             setOrientation(img);
         } else {
-            // If the image is still loading
             img.addEventListener('load', function() {
                 setOrientation(img);
             });
@@ -142,13 +145,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = img.closest('.photo-item');
         const aspectRatio = img.naturalWidth / img.naturalHeight;
         
-        // If the image is more landscape than portrait
         if (aspectRatio > 1.2) {
             container.classList.add('horizontal');
-            container.classList.remove('vertical');
         } else {
             container.classList.add('vertical');
-            container.classList.remove('horizontal');
         }
     }
 });

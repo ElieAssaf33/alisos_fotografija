@@ -9,18 +9,34 @@
     <p class="section-description">Amžinių šeimos prisiminimų kūrimas</p>
     
     <div class="photo-grid">
-        {% for gallery in family_galleries %}
-            {% for photo in gallery.photos.all %}
-            <div class="photo-item">
-                <div class="image-container">
-                    <img src="{{photo.image.url}}" alt="{{ photo.title }}" class="gallery-image">
-                </div>
-                {% if photo.title %}
-                <div class="photo-title">{{ photo.title }}</div>
-                {% endif %}
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_8119.jpg' %}" alt="Renginio fotografija" class="gallery-image">
             </div>
-            {% endfor %}
-        {% endfor %}
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_8140.jpg' %}" alt="Renginio fotografija" class="gallery-image">
+            </div>
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_8163.jpg' %}" alt="Renginio fotografija" class="gallery-image">
+            </div>
+        </div>
+
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_8293.jpg' %}" alt="Renginio fotografija" class="gallery-image">
+            </div>
+        </div>
+        <div class="photo-item">
+            <div class="image-container">
+                <img src="{% static 'img/IMG_8302.jpg' %}" alt="Renginio fotografija" class="gallery-image">
+            </div>
+        </div>
     </div>
 </div>
 
