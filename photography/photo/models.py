@@ -24,13 +24,13 @@ class PhotoGallery(models.Model):
 class Photo(models.Model):
     gallery = models.ForeignKey(PhotoGallery, on_delete=models.CASCADE, related_name='photos')
     image = ProcessedImageField(
-        upload_to='images/',
+        upload_to='img/',
         processors=[ResizeToFit(1920, 1080, upscale=False)],  # Resize to max 1920x1080
         format='JPEG',
         options={'quality': 90}  # Set JPEG quality to 90%
     )
     thumbnail = ProcessedImageField(
-        upload_to='thumbnails/',
+        upload_to='img/thumbnails/',
         processors=[ResizeToFit(400, 400, upscale=False)],
         format='JPEG',
         options={'quality': 85},  # Set JPEG quality to 85% for thumbnails
