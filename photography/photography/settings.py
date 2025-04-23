@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-fjnlg%!ffq4$t1sc6a-)$bdk87vr%uvgszip=5*y=)py1)fp=+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','alisosfotografija.onrender.com', 'alisosfotografija.lt']
 
@@ -123,6 +123,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR.joinpath(STATIC_URL)
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR.joinpath(MEDIA_URL)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Default primary key field type
