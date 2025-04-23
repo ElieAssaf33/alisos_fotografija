@@ -32,4 +32,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Add media file serving in production
 MIDDLEWARE.append('django.middleware.security.SecurityMiddleware')
-MIDDLEWARE.append('django.contrib.staticfiles.middleware.StaticFilesMiddleware') 
+MIDDLEWARE.append('django.contrib.staticfiles.middleware.StaticFilesMiddleware')
+
+# Ensure media directory exists
+os.makedirs(MEDIA_ROOT, exist_ok=True)
+
+# Configure Django Storages for media files
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+MEDIAFILES_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+# Add media file serving middleware
+MIDDLEWARE.append('django.middleware.common.CommonMiddleware') 
