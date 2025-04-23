@@ -1,1 +1,1 @@
-web: python manage.py collectstatic --no-input && python manage.py migrate && mkdir -p media/images media/thumbnails media/reviews && chmod -R 755 media && gunicorn photography.wsgi:application --log-file -
+web: python manage.py collectstatic --no-input --clear && python manage.py migrate && mkdir -p media/images media/thumbnails media/reviews && chmod -R 755 media static && gunicorn photography.wsgi:application --log-file -
