@@ -7,7 +7,7 @@
 
     <div class="pricing-grid">
         <!-- Family Package -->
-        <div class="pricing-card">
+        {% comment %} <div class="pricing-card">
             <h2>Šeimos Fotosesija</h2>
             <div class="price">€350</div>
             <ul class="features">
@@ -19,19 +19,19 @@
                 <li>Susitikimo sesija įskaičiuota</li>
             </ul>
             <a href="{% url 'contacts' %}" class="book-btn">Užsakyti</a>
-        </div>
+        </div> {% endcomment %}
 
         <!-- Portrait Package -->
         <div class="pricing-card">
             <h2>Asmeninė Fotosesija Studijoje</h2>
-            <div class="price">€175</div>
+            <div class="price">€85</div>
             <ul class="features">
-                <li>2 valandų sesija</li>
-                <li>Kelios lokacijos</li>
-                <li>50+ redaguotų nuotraukų</li>
-                <li>Internetinė galerija</li>
-                <li>Spausdinimo teisės</li>
+                <li>1 valandos sesija</li>
+                <li>30 retušuotų nuotraukų</li>
                 <li>Stiliaus konsultacija</li>
+                <li>Įskaičiuota studijos nuoma</li>
+                <li>Keli įvaizdžiai</li>
+                <li>Greitas atidavimas</li>
             </ul>
             <a href="{% url 'contacts' %}" class="book-btn">Užsakyti</a>
         </div>
@@ -40,14 +40,16 @@
         <div class="pricing-card popular">
             <h2>Asmeninė Fotosesija Gamtoje</h2>
             <div class="popular-badge">Populiariausias</div>
-            <div class="price">€120</div>
+            <div class="price">€70</div>
             <ul class="features">
                 <li>Lokacijų paieška</li>
+                <li>1.5 valandos sesija</li>
                 <li>Kraštovaizdžių fotografija</li>
-                <li>Galimi oro kadrai</li>
                 <li>Oro sąlygų planavimas</li>
-                <li>Kelionės dokumentavimas</li>
-                <li>Istorijų kūrimas</li>
+                <li>Greitas nuotraukų atidavimas</li>
+                <li>30 retušuotų nuotraukų</li>
+                <li>Stiliaus konsultacija</li>
+
             </ul>
             <a href="{% url 'contacts' %}" class="book-btn">Užsakyti</a>
         </div>
@@ -55,14 +57,13 @@
         <!-- Events Package -->
         <div class="pricing-card">
             <h2>Renginių Fotografavimas</h2>
-            <div class="price">€350</div>
+            <div class="price">Nuo €40</div>
             <ul class="features">
-                <li>8 valandos fotografavimo</li>
-                <li>2 fotografai</li>
-                <li>500+ redaguotų nuotraukų</li>
-                <li>Internetinė galerija</li>
-                <li>Renginių albumo dizainas</li>
-                <li>Susitikimo sesija įskaičiuota</li>
+                <li>Nuo 1-8 valandų trukmės fotografavimo</li>
+                <li>40+ retušuotų nuotraukų</li>
+                <li>Nuotraukų atidavimas per 7 dienas</li>
+                <li>Svarbių detalių aptarimas</li>
+                <li><br><br><br></li>
             </ul>
             <a href="{% url 'contacts' %}" class="book-btn">Užsakyti</a>
         </div>
