@@ -203,6 +203,7 @@ def submit_review(request:HttpRequest):
         from django.template.defaultfilters import date
         formatted_date = date(review.created_at, "F j, Y")
         
+        messages.success(request, 'Ačiū už jūsų atsiliepimą! Jis bus greitai peržiūrėtas.')
         return JsonResponse({
             'status': 'success', 
             'review': {
@@ -212,6 +213,7 @@ def submit_review(request:HttpRequest):
                 'created_at': formatted_date
             }
         })
+        	
     else:
         return JsonResponse({
             'status': 'error', 

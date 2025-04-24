@@ -127,3 +127,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'eliesamazingphotography@gmail.com'
 EMAIL_HOST_PASSWORD = 'afhg ccbx thpw qvoh'
+
+DEFAULT_FROM_EMAIL = "alisasmirnova601@gmail.com"
+ADMIN_EMAIL = "alisasmirnova601@gmail.com"
