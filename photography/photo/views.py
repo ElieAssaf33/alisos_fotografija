@@ -4,6 +4,10 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from . import models
 from .forms import ContactForm, ReviewForm
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
+
 
 def index(request:HttpRequest):
     # Get one photo from each category
@@ -189,3 +193,27 @@ def reviews(request:HttpRequest):
         'reviews': reviews,
     }
     return render(request, 'photo/reviews.html', context)
+
+def submit_review(request:HttpRequest):
+    form = ReviewForm(request.POST, request.FILES)
+    if form.is_valid():
+        review = form.save()
+        
+        # Format the date as it would be in the template
+        from django.template.defaultfilters import date
+        formatted_date = date(review.created_at, "F j, Y")
+        
+        return JsonResponse({
+            'status': 'success', 
+            'review': {
+                'client_name': review.client_name,
+                'rating': review.rating,
+                'review_text': review.review_text,
+                'created_at': formatted_date
+            }
+        })
+    else:
+        return JsonResponse({
+            'status': 'error', 
+            'message': ' '.join([f"{field}: {errors}" for field, errors in form.errors.items()])
+        }, status=400)

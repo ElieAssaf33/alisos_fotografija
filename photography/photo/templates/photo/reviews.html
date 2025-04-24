@@ -339,5 +339,87 @@
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.rating-stars .star');
+        const ratingInput = document.getElementById('id_rating');
+        const ratingText = document.querySelector('.rating-text');
+        
+        // Star rating functionality (existing code)
+        {{ ... }}
+
+        // New code for dynamic review submission
+        const reviewForm = document.querySelector('.review-form');
+        const reviewsGrid = document.querySelector('.reviews-grid');
+        const noReviewsMessage = document.querySelector('.no-reviews');
+
+        reviewForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(reviewForm);
+            
+            fetch('{% url "submit_review" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Remove no reviews message if it exists
+                    if (noReviewsMessage) {
+                        noReviewsMessage.remove();
+                    }
+
+                    // Create new review card
+                    const reviewCard = document.createElement('div');
+                    reviewCard.classList.add('review-card');
+                    reviewCard.innerHTML = `
+                        <div class="review-header">
+                            <div class="client-info">
+                                <h3>${data.review.client_name}</h3>
+                                <div class="rating">
+                                    ${generateStars(data.review.rating)}
+                                </div>
+                            </div>
+                            <div class="review-date">${data.review.created_at}</div>
+                        </div>
+                        
+                        <div class="review-content">
+                            <p class="review-text">${data.review.review_text}</p>
+                        </div>
+                    `;
+
+                    // Prepend the new review to the grid
+                    reviewsGrid.insertBefore(reviewCard, reviewsGrid.firstChild);
+
+                    // Reset form
+                    reviewForm.reset();
+                    ratingInput.value = 0;
+                    ratingText.textContent = 'Spauskite žvaigždutes įvertinimui';
+                    stars.forEach(star => star.classList.remove('filled'));
+                } else {
+                    alert('Klaida pateikiant atsiliepimą: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Įvyko klaida. Prašome pabandyti dar kartą.');
+            });
+        });
+
+        // Helper function to generate star rating HTML
+        function generateStars(rating) {
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHtml += i <= rating 
+                    ? '<span class="star filled">★</span>' 
+                    : '<span class="star">☆</span>';
+            }
+            return starsHtml;
+        }
+    });
 </script>
 {% endblock content %} 
