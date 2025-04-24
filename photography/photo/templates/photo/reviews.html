@@ -8,28 +8,6 @@
 
     <div class="reviews-grid">
         {% for review in reviews %}
-        <div class="review-card">
-            <div class="review-header">
-                <div class="client-info">
-                    <h3>{{ review.client_name }}</h3>
-                    <div class="rating">
-                        {% for i in "12345"|make_list %}
-                            {% if forloop.counter <= review.rating %}
-                                <span class="star filled">★</span>
-                            {% else %}
-                                <span class="star">☆</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="review-date">{{ review.created_at|date:"F j, Y" }}</div>
-            </div>
-            
-            <div class="review-content">
-                <p class="review-text">{{ review.review_text }}</p>
-            </div>
-        </div>
-        {% empty %}
         <div class="no-reviews">
             <p>Kol kas nėra atsiliepimų. Būkite pirmi, kurie pasidalins savo patirtimi!</p>
         </div>
