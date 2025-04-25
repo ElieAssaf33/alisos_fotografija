@@ -7,14 +7,14 @@
     <p class="subtitle">Ką mano klientai sako apie savo patirtį</p>
 
     <div class="reviews-grid">
-        
+        <!-- Reviews will be dynamically loaded here -->
     </div>
 
     <div class="review-form-container">
         <h2 class="section-title">Pasidalinkite Savo Patirtimi</h2>
         <p class="section-subtitle">Man labai svarbu išgirsti jūsų nuomonę apie mano fotografijos paslaugas</p>
         
-        <form method="post" class="review-form">
+        <form method="post" action="{% url 'submit_review' %}" class="review-form" id="reviewForm">
             {% csrf_token %}
             <div class="form-group">
                 <label for="id_client_name" class="form-label">Jūsų Vardas</label>
@@ -25,11 +25,9 @@
                 <div class="rating-input">
                     <input type="hidden" name="rating" id="id_rating" value="0">
                     <div class="rating-stars">
-                        <span class="star" data-rating="1">☆</span>
-                        <span class="star" data-rating="2">☆</span>
-                        <span class="star" data-rating="3">☆</span>
-                        <span class="star" data-rating="4">☆</span>
-                        <span class="star" data-rating="5">☆</span>
+                        {% for i in "12345" %}
+                        <span class="star" data-rating="{{ i }}">☆</span>
+                        {% endfor %}
                     </div>
                     <span class="rating-text">Spauskite žvaigždutes įvertinimui</span>
                 </div>
@@ -43,6 +41,15 @@
                 <i class="fas fa-paper-plane"></i>
             </button>
         </form>
+    </div>
+</div>
+
+<!-- Success Popup -->
+<div class="review-popup" id="successPopup">
+    <div class="review-popup-content">
+        <h2>Ačiū!</h2>
+        <p>Jūsų atsiliepimas buvo sėkmingai pateiktas.</p>
+        <button onclick="closePopup()">Uždaryti</button>
     </div>
 </div>
 
@@ -252,225 +259,161 @@
         }
     }
 
-.review-popup {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.5);
-    animation: fadeIn 0.3s ease;
-}
-
-.review-popup-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 500px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    animation: slideUp 0.3s ease;
-}
-
-.review-popup-content h2 {
-    color: #4CAF50;
-    margin-bottom: 15px;
-}
-
-.review-popup-content p {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.review-popup-content button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.review-popup-content button:hover {
-    background-color: #45a049;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideUp {
-    from { 
-        opacity: 0; 
-        transform: translateY(20px); 
+    .review-popup {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.3s ease;
     }
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
+
+    .review-popup-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        animation: slideUp 0.3s ease;
     }
-}
+
+    .review-popup-content h2 {
+        color: #4CAF50;
+        margin-bottom: 15px;
+    }
+
+    .review-popup-content p {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .review-popup-content button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .review-popup-content button:hover {
+        background-color: #45a049;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var popup = document.getElementById('review-popup');
-    {% if messages %}
-        popup.style.display = 'block';
-    {% endif %}
+document.addEventListener('DOMContentLoaded', function () {
+    const stars = document.querySelectorAll('.rating-stars .star');
+    const ratingInput = document.getElementById('id_rating');
+    const ratingText = document.querySelector('.rating-text');
+    const form = document.getElementById('reviewForm');
+    const successPopup = document.getElementById('successPopup');
+
+    const ratingDescriptions = {
+        0: 'Spauskite žvaigždutes įvertinimui',
+        1: 'Labai blogai',
+        2: 'Blogai',
+        3: 'Vidutiniškai',
+        4: 'Gerai',
+        5: 'Puiku'
+    };
+
+    // Handle star rating
+    stars.forEach(star => {
+        star.addEventListener('click', function () {
+            const rating = this.dataset.rating;
+            ratingInput.value = rating;
+
+            stars.forEach(s => {
+                s.textContent = s.dataset.rating <= rating ? '★' : '☆';
+                s.classList.toggle('active', s.dataset.rating <= rating);
+            });
+
+            ratingText.textContent = ratingDescriptions[rating];
+        });
+
+        star.addEventListener('mouseover', function () {
+            const rating = this.dataset.rating;
+            stars.forEach(s => {
+                s.textContent = s.dataset.rating <= rating ? '★' : '☆';
+            });
+        });
+
+        star.addEventListener('mouseout', function () {
+            const currentRating = ratingInput.value;
+            stars.forEach(s => {
+                s.textContent = s.dataset.rating <= currentRating ? '★' : '☆';
+            });
+        });
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent actual form submission
+
+        const formData = new FormData(form);
+
+        // Send the form data via AJAX
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Show the success popup
+                successPopup.style.display = 'block';
+                form.reset(); // Reset the form fields
+                ratingInput.value = 0; // Reset the rating
+                stars.forEach(star => {
+                    star.textContent = '☆';
+                    star.classList.remove('active');
+                });
+                ratingText.textContent = ratingDescriptions[0];
+            } else {
+                alert(data.message || 'Įvyko klaida. Bandykite dar kartą.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Įvyko klaida. Bandykite dar kartą.');
+        });
+    });
 });
 
 function closePopup() {
-    var popup = document.getElementById('review-popup');
-    popup.style.display = 'none';
+    const successPopup = document.getElementById('successPopup');
+    successPopup.style.display = 'none'; // Hide the popup
 }
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const stars = document.querySelectorAll('.rating-stars .star');
-        const ratingInput = document.getElementById('id_rating');
-        const ratingText = document.querySelector('.rating-text');
-        
-        const ratingDescriptions = {
-            0: 'Spauskite žvaigždutes įvertinimui',
-            1: 'Labai blogai',
-            2: 'Blogai',
-            3: 'Vidutiniškai',
-            4: 'Gerai',
-            5: 'Puiku'
-        };
-
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                const rating = this.dataset.rating;
-                ratingInput.value = rating;
-                
-                stars.forEach(s => {
-                    if (s.dataset.rating <= rating) {
-                        s.classList.add('active');
-                        s.textContent = '★';
-                    } else {
-                        s.classList.remove('active');
-                        s.textContent = '☆';
-                    }
-                });
-
-                ratingText.textContent = ratingDescriptions[rating];
-            });
-
-            star.addEventListener('mouseover', function() {
-                const rating = this.dataset.rating;
-                stars.forEach(s => {
-                    if (s.dataset.rating <= rating) {
-                        s.classList.add('active');
-                        s.textContent = '★';
-                    } else {
-                        s.classList.remove('active');
-                        s.textContent = '☆';
-                    }
-                });
-            });
-
-            star.addEventListener('mouseout', function() {
-                const currentRating = ratingInput.value;
-                stars.forEach(s => {
-                    if (s.dataset.rating <= currentRating) {
-                        s.classList.add('active');
-                        s.textContent = '★';
-                    } else {
-                        s.classList.remove('active');
-                        s.textContent = '☆';
-                    }
-                });
-            });
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const stars = document.querySelectorAll('.rating-stars .star');
-        const ratingInput = document.getElementById('id_rating');
-        const ratingText = document.querySelector('.rating-text');
-        
-        // Star rating functionality (existing code)
-        {{ ... }}
-
-        // New code for dynamic review submission
-        const reviewForm = document.querySelector('.review-form');
-        const reviewsGrid = document.querySelector('.reviews-grid');
-        const noReviewsMessage = document.querySelector('.no-reviews');
-
-        reviewForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(reviewForm);
-            
-            fetch('{% url "submit_review" %}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    // Remove no reviews message if it exists
-                    if (noReviewsMessage) {
-                        noReviewsMessage.remove();
-                    }
-
-                    // Create new review card
-                    const reviewCard = document.createElement('div');
-                    reviewCard.classList.add('review-card');
-                    reviewCard.innerHTML = `
-                        <div class="review-header">
-                            <div class="client-info">
-                                <h3>${data.review.client_name}</h3>
-                                <div class="rating">
-                                    ${generateStars(data.review.rating)}
-                                </div>
-                            </div>
-                            <div class="review-date">${data.review.created_at}</div>
-                        </div>
-                        
-                        <div class="review-content">
-                            <p class="review-text">${data.review.review_text}</p>
-                        </div>
-                    `;
-
-                    // Prepend the new review to the grid
-                    reviewsGrid.insertBefore(reviewCard, reviewsGrid.firstChild);
-
-                    // Reset form
-                    reviewForm.reset();
-                    ratingInput.value = 0;
-                    ratingText.textContent = 'Spauskite žvaigždutes įvertinimui';
-                    stars.forEach(star => star.classList.remove('filled'));
-                } else {
-                    alert('Klaida pateikiant atsiliepimą: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Įvyko klaida. Prašome pabandyti dar kartą.');
-            });
-        });
-
-        // Helper function to generate star rating HTML
-        function generateStars(rating) {
-            let starsHtml = '';
-            for (let i = 1; i <= 5; i++) {
-                starsHtml += i <= rating 
-                    ? '<span class="star filled">★</span>' 
-                    : '<span class="star">☆</span>';
-            }
-            return starsHtml;
-        }
-    });
 </script>
-{% endblock content %} 
+{% endblock content %}

@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
-from django.core.mail import send_mail
+from django.http import HttpRequest, JsonResponse
+from django.core.mail import send_mail, BadHeaderError
 from django.contrib import messages
 from . import models
 from .forms import ContactForm, ReviewForm
-from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_http_methods
-
+from django.template.defaultfilters import date
 
 
 def index(request:HttpRequest):
@@ -196,57 +194,16 @@ def reviews(request:HttpRequest):
     }
     return render(request, 'photo/reviews.html', context)
 
-@require_http_methods(["POST"])
-def submit_review(request):
-    form = ReviewForm(request.POST, request.FILES)
-    if form.is_valid():
-        try:
-            review = form.save()
-            
-            # Send email about the new review
-            try:
-                subject = f'New Review from {review.client_name}'
-                message = f"""
-New Review Details:
-Client Name: {review.client_name}
-Email: {review.email}
-Rating: {review.rating}/5
-Review Text: {review.review_text}
-Created At: {review.created_at}
 
-Please log into the admin panel to view full details.
-                """
-                send_mail(
-                    subject, 
-                    message, 
-                    'eliesamazingphotography@gmail.com',  # From email
-                    ['eliesamazingphotography@gmail.com'],  # To email
-                    fail_silently=False,
-                )
+def submit_review(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                review = form.save()
+                return JsonResponse({'status': 'success', 'message': 'Review submitted successfully!'})
             except Exception as e:
-                print(f"Failed to send review email: {e}")
-            
-            # Format the date as it would be in the template
-            from django.template.defaultfilters import date
-            formatted_date = date(review.created_at, "F j, Y")
-            
-            return JsonResponse({
-                'status': 'success', 
-                'message': 'Ačiū už jūsų atsiliepimą! Jis bus greitai peržiūrėtas.',
-                'review': {
-                    'client_name': review.client_name,
-                    'rating': review.rating,
-                    'review_text': review.review_text,
-                    'created_at': formatted_date
-                }
-            })
-        except Exception as e:
-            return JsonResponse({
-                'status': 'error', 
-                'message': str(e)
-            }, status=400)
-    else:
-        return JsonResponse({
-            'status': 'error', 
-            'message': ' '.join([f"{field}: {errors}" for field, errors in form.errors.items()])
-        }, status=400)
+                return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Invalid form data.'}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
