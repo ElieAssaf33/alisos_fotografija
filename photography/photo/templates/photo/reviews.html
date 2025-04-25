@@ -388,10 +388,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.status === 'success') {
-                // Show the success popup
                 successPopup.style.display = 'block';
                 form.reset(); // Reset the form fields
                 ratingInput.value = 0; // Reset the rating
@@ -401,12 +405,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 ratingText.textContent = ratingDescriptions[0];
             } else {
-                alert(data.message || 'Įvyko klaida. Bandykite dar kartą.');
+                alert(data.message || 'An error occurred. Please try again.');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Įvyko klaida. Bandykite dar kartą.');
+            alert('An error occurred. Please try again.');
         });
     });
 });

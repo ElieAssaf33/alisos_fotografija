@@ -7,6 +7,9 @@ from .forms import ContactForm, ReviewForm
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
 from django.template.defaultfilters import date
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def index(request:HttpRequest):
@@ -197,6 +200,7 @@ def reviews(request:HttpRequest):
 
 def submit_review(request):
     if request.method == 'POST':
+        logger.info(f"Request data: {request.POST}")
         form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
             try:
